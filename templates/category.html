@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10">
+				<ul class="page-header-breadcrumb">
+					<li><a href="{% url 'index' %}">Головна</a></li>
+					<li>{{ category.name }}</li>
+				</ul>
+				<h1>{{ category.name }}</h1>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Page Header -->
+
+<!-- section -->
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<div class="col-md-8">
+				<div class="row">
+					{% if first_post %}
+						<div class="col-md-12">
+							<div class="post post-thumb">
+								<a class="post-img" href="{% url 'article' first_post.slug %}"><img src="{{ first_post.img.url }}" alt=""></a>
+								<div class="post-body">
+									<div class="post-meta">
+										<a class="post-category" style="background-color: {{ category.color }};" href="#">{{ category.name }}</a>
+										<span class="post-date">{{ first_post.created_at|date:'d.m.Y H:i' }}</span>
+									</div>
+									<h3 class="post-title"><a href="{% url 'article' first_post.slug %}">{{ first_post.name }}</a></h3>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+					{% for post in last_posts %}
+						<div class="col-md-12">
+							<div class="post post-row">
+								{% if post.img %}
+									<a class="post-img" href="{% url 'article' post.slug %}"><img src="{{ post.img.url }}" alt=""></a>
+								{% endif %}
+								<div class="post-body">
+									<div class="post-meta">
+										<a class="post-category" style="background-color: {{ post.category.color }};" href="#">{{ category.name }}</a>
+										<span class="post-date">{{ post.created_at|date:'d.m.Y H:i' }}</span>
+									</div>
+									<h3 class="post-title"><a href="{% url 'article' post.slug %}">{{ post.name }}</a></h3>
+									<p>{{ post.content|safe|slice:":30" }}...</p>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+<!--					-->
+<!--					<div class="col-md-12">-->
+<!--						<div class="section-row">-->
+<!--							<button class="primary-button center-block">Завантажити ще</button>-->
+<!--						</div>-->
+<!--					</div>-->
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				{% include "most_popular.html" %}
+				{% include "last_posts.html" %}
+			</div>
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /section -->
+{% endblock %}

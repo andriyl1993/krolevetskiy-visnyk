@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load in_list %}
+
+{% block content %}
+
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<div class="col-md-8">
+                {% for post in search_posts %}
+                    <div class="post post-row">
+                        {% if post.img %}
+                            <a class="post-img" href="{% url 'article' post.slug %}"><img src="{{ post.img.url }}" alt=""></a>
+                        {% endif %}
+                        <div class="post-body">
+                            <div class="post-meta">
+                                <a class="post-category" style="background-color: {{ post.category.color }};" href="#">{{ post.category.name }}</a>
+                                <span class="post-date">{{ post.created_at|date:'d.m.Y H:i' }}</span>
+                            </div>
+                            <h3 class="post-title"><a href="{% url 'article' post.slug %}">{{ post.name }}</a></h3>
+                            <p>{{ post.content|safe|slice:":30" }}...</p>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                {% if not search_posts %}
+                    <h4>Нічого не зайдено з "{{ term }}"</h4>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+				{% include "most_popular.html" %}
+				{% include "last_posts.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load in_list %}
+
+{% block content %}
+<div class="section">
+	<div class="container">
+		<div class="row">
+			{% for post in top_posts %}
+				<div class="col-md-6">
+					<div class="post post-thumb">
+						<a class="post-img" href="{% url 'article' post.slug %}"><img src="{{ post.img.url }}" alt=""></a>
+						<div class="post-body">
+							<div class="post-meta">
+								<a class="post-category" style="background-color: {{ post.category.color }};" href="{% url 'category' post.category.slug %}">{{ post.category.name }}</a>
+								<span class="post-date">{{ post.created_at|date:'d.m.Y H:i' }}</span>
+							</div>
+							<h3 class="post-title"><a href="{% url 'article' post.slug %}">{{ post.name }}</a></h3>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="section-title">
+					<h2>Головні події</h2>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="row">
+				{% for post in last_main_posts %}
+					<div class="{% if forloop.counter == 7 %}col-md-12{% else %}col-md-6{% endif %}">
+						<div class="post {% if forloop.count == 7 %}post-thumb{% endif %}">
+							<a class="post-img" href="{% url 'article' post.slug %}"><img src="{{ post.img.url }}" alt=""></a>
+							<div class="post-body">
+								<div class="post-meta">
+									<a class="post-category" style="background-color: {{ post.category.color }};" href="{% url 'category' post.category.slug %}">{{ post.category.name }}</a>
+									<span class="post-date">{{ post.created_at|date:'d.m.Y H:i' }}</span>
+								</div>
+								<h3 class="post-title"><a href="blog-post.html">{{ post.name }}</a></h3>
+							</div>
+						</div>
+					</div>
+
+					{% if forloop.counter|divisibleby:2 %}
+						<div class="clearfix visible-md visible-lg"></div>
+					{% endif %}
+
+				{% endfor %}
+				</div>
+			</div>
+			<div class="col-md-4">
+				{% include "most_popular.html" %}
+				{% include "last_posts.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

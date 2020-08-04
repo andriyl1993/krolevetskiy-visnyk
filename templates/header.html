@@ -1,0 +1,92 @@
+{% load static %}
+
+<!-- Header -->
+<header id="header">
+    <!-- Nav -->
+    <div id="nav">
+        <!-- Main Nav -->
+        <div id="nav-fixed">
+            <div class="container">
+                <!-- logo -->
+                <div class="nav-logo">
+                    <a href="{% url 'index' %}" class="logo"><img src="{% static 'img/logo.jpg' %}" alt=""></a>
+                </div>
+                <!-- /logo -->
+
+                <!-- nav -->
+                <ul class="nav-menu nav navbar-nav">
+                    {% for category in categories %}
+                        {% if category.color %}
+                            <style>
+                                .nav-menu li.cat-{{ forloop.counter }} a:after {
+                                    background-color: {{ category.color }};
+                                }
+                                .nav-menu li.cat-{{ forloop.counter }} a:hover, .nav-menu li.cat-{{ forloop.counter }} a:focus {
+                                     color: {{ category.color }};
+                                }
+                            </style>
+                        {% endif %}
+                        <li class="cat-{{ forloop.counter }}"><a href="{% url 'category' category.slug %}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+                <!-- /nav -->
+
+                <!-- search & aside toggle -->
+                <div class="nav-btns">
+                    <button class="aside-btn"><i class="fa fa-bars"></i></button>
+                    <button class="search-btn"><i class="fa fa-search"></i></button>
+                    <form name="search" action="{% url 'search' %}" method="GET"/>
+                        <div class="search-form">
+                            <input class="search-input" type="text" name="search" placeholder="Введіть слова для пошуку ...">
+                            <button class="search-close"><i class="fa fa-times"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /search & aside toggle -->
+            </div>
+        </div>
+        <!-- /Main Nav -->
+
+        <!-- Aside Nav -->
+        <div id="nav-aside">
+            <!-- nav -->
+            <div class="section-row">
+                <ul class="nav-aside-menu">
+                    {% for category in categories %}
+                        <li><a href="{% url 'category' category.slug %}">{{ category.ukr_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- /nav -->
+
+            <!-- social links -->
+            <div class="section-row">
+                <h3>Слідкуй за нами</h3>
+                <ul class="nav-aside-social">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                </ul>
+            </div>
+            <!-- /social links -->
+
+            <div class="section-row">
+                <ul class="nav-aside-menu">
+                    <li><a href="{% url 'index' %}}">Головна</a></li>
+                    <li><a href="{% url 'about' %}">Про нас</a></li>
+                    <li><a href="{% url 'contacts' %}">Контакти</a></li>
+                    <li><a href="{% url 'privacy' %}">Правила користування сайтом</a></li>
+                </ul>
+            </div>
+
+            <!-- aside nav close -->
+            <button class="nav-aside-close"><i class="fa fa-times"></i></button>
+            <!-- /aside nav close -->
+        </div>
+        <!-- Aside Nav -->
+
+    </div>
+    <!-- /Nav -->
+</header>
+<!-- /Header -->
